@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+
+	<title>QVW Table - Ajax data source (objects)</title>
+	<!-- table resources -->
+	<link rel="stylesheet" type="text/css" href="resource/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="resource/css/shCore.css">
+	<link rel="stylesheet" type="text/css" href="resource/css/table_demo.css">
+	<style type="text/css" class="init"></style>
+	<script type="text/javascript" language="javascript" src="resource/js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="resource/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" language="javascript" src="resource/js/shCore.js"></script>
+	<script type="text/javascript" language="javascript" src="resource/js/demo.js"></script>
+	
+	<script type="text/javascript" language="javascript" class="init">
+	<!--
+		$(document).ready(function(){
+			//reader data table
+			$('#qvw_table').dataTable( {
+				"scrollY":        "400px",
+				"scrollCollapse": true,
+				"ajax": "data/objects.txt",
+				"columns": [
+					{ "data": "name" },
+					{ "data": "position" },
+					{ "data": "office" },
+					{ "data": "extn" },
+					{ "data": "start_date" },
+					{ "data": "salary" }
+				]
+			} );
+		});
+	//-->
+	</script>
+</head>
+
+<body>
+	<div id="QVW_section">
+		<h1>QVW Table <span>Ajax data source (objects)</span></h1>
+
+		<table id="qvw_table" class="display" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Office</th>
+					<th>Extn.</th>
+					<th>Start date</th>
+					<th>Salary</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</body>
+</html>

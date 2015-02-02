@@ -40,8 +40,9 @@
 			{ id:11, pId:1, name:"Admin"},
 			{ id:111, pId:11, name:"User"},
 			{ id:112, pId:11, name:"QVW"},
-			{ id:113, pId:11, name:"Permission"},
-			{ id:114, pId:11, name:"Licence"}
+			{ id:113, pId:11, name:"QVW-Access"},
+			{ id:114, pId:11, name:"Permission"},
+			{ id:115, pId:11, name:"Licence"}
 		];
 	
 		function beforeClick(treeId, node) {
@@ -85,6 +86,8 @@
 				iframe.src = 'user.html';
 			} else if(node.id == "112"){
 				iframe.src = 'qvw.html';
+			}  else if(node.id == "113"){
+				iframe.src = 'qvw-access.html';
 			}
 			iframe.contentDocument.location = iframe.src;
 		}

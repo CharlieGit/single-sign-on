@@ -24,26 +24,67 @@
 
 <!-- demo: http://www.guriddo.net/demo/guriddojs/ -->
 <script type="text/javascript"> 
+	function check_CustomerID(value, colname) {
+		var result = [true, ""];
+	    $.ajax({
+	        url: '@Url.Action("check_CustomerID")',
+	        data: { email: value },
+	        type: 'POST',
+	        async: false,
+	        datatype: 'text',
+	        success: function (data) {
+	            if (!data) result = [true, ""];
+	            else result = [false, colname + ": ya existe en el sistema"];
+	        }
+	    })
+	    return result;
+	}
     $(document).ready(function () {
     	//get all countries
     	//var countries = $.ajax({url: $('#ajaxAllCountriesUrl').val(), async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the Countries.');}}).responseText;
     	//The format of the country object is a JSON object and looks like this:
     	var countries = {"230":"UNITED STATES", "40":"CANADA", "7":"AFGHANISTAN"};
+    	var selRowData = null;
         $("#jqGrid").jqGrid({
-            url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+            url: 'data2.json',
             mtype: "GET",
-            datatype: "jsonp",
+            datatype: "json",
             editurl: 'clientArray',
             colModel: [
-                { label: 'OrderID', name: 'OrderID', key: true, width: 75, editable: true },
-                { label: 'Customer ID', name: 'CustomerID', width: 150, editable: true , editrules: { required: true }, editoptions: { recreateForm: true }},
-                { label: 'Order Date', name: 'OrderDate', width: 150, editable: true },
-                { label: 'Freight', name: 'Freight', width: 150, editable: true },
+                { label: 'OrderID', name: 'OrderID', key: true, width: 75, editable: true, 
+                	editoptions: {
+                    	defaultValue: function () {
+                        	return selRowData === null ? '' : selRowData.OrderID;
+                    	}
+                	}
+                },
+                { label: 'Customer ID', name: 'CustomerID', width: 150, editable: true ,  editrules: { required: true, custom: true, custom_func: check_CustomerID } , 
+                	editoptions: {
+                    	defaultValue: function () {
+                        	return selRowData === null ? '' : selRowData.CustomerID;
+                    	}
+                	}
+                },
+                { label: 'Order Date', name: 'OrderDate', width: 150, editable: true, 
+                	editoptions: {
+                    	defaultValue: function () {
+                        	return selRowData === null ? '' : selRowData.OrderDate;
+                    	}
+                	}
+                },
+                { label: 'Freight', name: 'Freight', width: 150, editable: true, 
+                	editoptions: {
+                    	defaultValue: function () {
+                        	return selRowData === null ? '' : selRowData.Freight;
+                    	}
+                	}
+                },
                 { label:'Ship Name', name: 'ShipName', width: 150, editable: true, edittype: "select", editrules: { required: true }
                 	//, editoptions: {value: "FE:FedEx; IN:InTime; TN:TNT"}  
                 }
             ],
 			viewrecords: true,
+			multiselect: true,
             width: 780,
             height: 250,
             rowNum: 20,
@@ -51,17 +92,19 @@
             ,
             loadComplete: function() {
             	$("#jqGrid").setColProp('ShipName', { editoptions: { 
-            			recreateForm: true,
             			value: countries,  
             			multiselect: true,
-            	        multiple: true
+            	        multiple: true,
+            	        defaultValue: function () {
+                        	return selRowData === null ? '' : selRowData.ShipName;
+                    	}
             		} 
             	});
             }
         });
         $('#jqGrid').navGrid('#jqGridPager',
                 // the buttons to appear on the toolbar of the grid
-                { edit: true, add: true, del: true, search: true, refresh: false, view: false, position: "left", cloneToTop: false },
+                { edit: true, add: true, del: true, search: true, refresh: false, view: true, position: "left", cloneToTop: false },
                 // options for the Edit Dialog
                 {
                     editCaption: "The Edit Dialog",
@@ -69,7 +112,8 @@
                     closeAfterEdit: true,
                     errorTextFormat: function (data) {
                         return 'Error: ' + data.responseText
-                    }
+                    },
+                    beforeShowForm: function(form) { $('#tr_OrderID', form).hide(); }
                 },
                 // options for the Add Dialog
                 {
@@ -77,6 +121,13 @@
                     recreateForm: true,
                     errorTextFormat: function (data) {
                         return 'Error: ' + data.responseText
+                    },
+                    beforeInitData: function () {
+                        var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        selRowData = rowid !== null ? $('#jqGrid').jqGrid('getRowData', rowid): null;
+                    },
+                    beforeShowForm: function(form) { 
+                    	$('#tr_OrderID', form).show(); 
                     }
                 },
                 // options for the Delete Dailog

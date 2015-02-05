@@ -18,9 +18,11 @@
 <script type="text/javascript" src="js/jqModal.js"></script>
 
 </head>
-<body>
-	<table id="jqGrid"></table>
-	<div id="jqGridPager"></div>
+<body style="height:100%;width:100%;">
+	<div style="height:100%;width:100%;" id="wrap">
+		<table id="jqGrid"></table>
+		<div id="jqGridPager"></div>
+	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
 
@@ -54,11 +56,12 @@
 				} ],
 				viewrecords : true, // show the current page, data rang and total records on the toolbar
 				width : 780,
-				height : 200,
+				height : 500,
 				rowNum : 30,
+				rowList: [30, 60, 100],
 				loadonce : true, // this is just for the demo
 				pager : "#jqGridPager"
-			});
+			}).setGridWidth($("#wrap").width()*.98);
 		});
 	</script>
 

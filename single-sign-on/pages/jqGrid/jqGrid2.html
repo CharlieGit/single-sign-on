@@ -19,7 +19,7 @@
 
 </head>
 <body>
-<table id="jqGrid"></table>
+<table id="jqGrid" align="center"></table>
 <div id="jqGridPager"></div>
 
 <!-- demo: http://www.guriddo.net/demo/guriddojs/ -->
@@ -86,8 +86,8 @@
 			viewrecords: true,
 			multiselect: true,
             width: 780,
-            height: 250,
-            rowNum: 20,
+            rowNum: 30,
+            rowList: [30, 40, 100],
             pager: "#jqGridPager"
             ,
             loadComplete: function() {

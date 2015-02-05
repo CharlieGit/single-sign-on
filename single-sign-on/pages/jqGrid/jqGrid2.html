@@ -25,6 +25,10 @@
 <!-- demo: http://www.guriddo.net/demo/guriddojs/ -->
 <script type="text/javascript"> 
     $(document).ready(function () {
+    	//get all countries
+    	//var countries = $.ajax({url: $('#ajaxAllCountriesUrl').val(), async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the Countries.');}}).responseText;
+    	//The format of the country object is a JSON object and looks like this:
+    	var countries = {"230":"UNITED STATES", "40":"CANADA", "7":"AFGHANISTAN"};
         $("#jqGrid").jqGrid({
             url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
             mtype: "GET",
@@ -32,20 +36,32 @@
             editurl: 'clientArray',
             colModel: [
                 { label: 'OrderID', name: 'OrderID', key: true, width: 75, editable: true },
-                { label: 'Customer ID', name: 'CustomerID', width: 150, editable: true },
+                { label: 'Customer ID', name: 'CustomerID', width: 150, editable: true , editrules: { required: true }, editoptions: { recreateForm: true }},
                 { label: 'Order Date', name: 'OrderDate', width: 150, editable: true },
                 { label: 'Freight', name: 'Freight', width: 150, editable: true },
-                { label:'Ship Name', name: 'ShipName', width: 150, editable: true }
+                { label:'Ship Name', name: 'ShipName', width: 150, editable: true, edittype: "select", editrules: { required: true }
+                	//, editoptions: {value: "FE:FedEx; IN:InTime; TN:TNT"}  
+                }
             ],
 			viewrecords: true,
             width: 780,
             height: 250,
             rowNum: 20,
             pager: "#jqGridPager"
+            ,
+            loadComplete: function() {
+            	$("#jqGrid").setColProp('ShipName', { editoptions: { 
+            			recreateForm: true,
+            			value: countries,  
+            			multiselect: true,
+            	        multiple: true
+            		} 
+            	});
+            }
         });
         $('#jqGrid').navGrid('#jqGridPager',
                 // the buttons to appear on the toolbar of the grid
-                { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+                { edit: true, add: true, del: true, search: true, refresh: false, view: false, position: "left", cloneToTop: false },
                 // options for the Edit Dialog
                 {
                     editCaption: "The Edit Dialog",

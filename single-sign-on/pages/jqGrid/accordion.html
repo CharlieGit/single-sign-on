@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>accordion demo</title>
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+</head>
+<style type="text/css">
+html, body {
+    height: 100%;
+}
+
+body > div {
+    height: 100%;
+    background: green;
+}
+
+body > div > div {
+    background: red;
+}
+#accordion{
+	width: 250px;
+	height: 100%;
+	border: 1px solid;
+}
+</style>
+<body>
+ 
+<div>
+	<div id="accordion">
+	  <h3>Section 1</h3>
+	  <div>
+	    <ul>
+	      <li><a href="">List item one</a></li>
+	      <li><a href="">List item two</a></li>
+	      <li><a href="">List item three</a></li>
+	    </ul>
+	  </div>
+	  <h3>Section 2</h3>
+	  <div>
+	    <ul>
+	      <li><a href="">List item one</a></li>
+	      <li><a href="">List item two</a></li>
+	      <li><a href="">List item three</a></li>
+	    </ul>
+	  </div>
+	  <h3>Section 3</h3>
+	  <div>
+	    <ul>
+	      <li><a href="">List item one</a></li>
+	      <li><a href="">List item two</a></li>
+	      <li><a href="">List item three</a></li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+ 
+<script>
+$( "#accordion" ).accordion({
+	autoHeight: true,
+  heightStyle: "fill"
+});
+$(window).resize(function(){
+    $("#accordion").accordion("refresh");
+});
+</script>
+ 
+</body>
+</html>

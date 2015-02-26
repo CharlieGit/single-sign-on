@@ -5,7 +5,7 @@ create procedure example_sp(
 )
 begin
 	START TRANSACTION;
-	select id into @license_id from portal.license where owner = @username limit 1;
+	select id into @license_id from portal.license where owner = @username and `type` = 'fix' limit 1;
 	if(@license_id is NULL)
 		then
 			select id into @license_id from portal.license where occupied = 'Y' and occupied_by = @username limit 1;
